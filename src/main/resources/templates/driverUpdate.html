@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Driver</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            /*background-color: #f4f4f4;*/
+            background-image: url('/img/h.jpg');
+            margin: 0;
+            padding: 0;
+            /*display: flex;*/
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .edit-form {
+            /*background-color: #fff;*/
+            /*border-radius: 8px;*/
+            /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
+            /*padding: 20px;*/
+            /*width: 300px;*/
+            margin-top: 5px;
+            max-width: 400px;
+            margin-left:400px;
+            padding: 20px;
+            background-color: #f2f2f2;
+            border-radius: 5px;
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #337ab7;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 30%;
+        }
+
+        button:hover {
+            background-color: #286090;
+        }
+        .error-message {
+            color: red;
+            display: none;
+            margin-top: 5px;
+        }
+        .edit-button {
+            background-color: #4caf50;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<nav th:include="adminTop.html" onclick="return false;" id="logo"> logo</nav>
+<body>
+
+<div class="edit-form">
+    <h2>Edit Driver</h2>
+
+        <form action="/saveDriver" method="post" th:object="${driver}"  onsubmit="return validateForm()">
+            <input type="hidden" th:field="*{driver_Id}">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" th:field="*{name}" >
+            <span id="name-error" class="error-message"></span>
+
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" th:field="*{address}" >
+            <span id="address-error" class="error-message"></span>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" th:field="*{email}" >
+            <span id="email-error" class="error-message"></span>
+
+            <label for="phoneNumber">Phone Number:</label>
+            <input type="tel" id="phoneNumber" name="phoneNumber" th:field="*{phoneNumber}" >
+            <span id="phoneNumber-error" class="error-message"></span>
+            <select id="gender" name="gender" th:field="*{gender}" required>
+                            <option value="male" th:selected="${driver.gender == 'male'}">Male</option>
+                            <option value="female" th:selected="${driver.gender == 'female'}">Female</option>
+                            <option value="other" th:selected="${driver.gender == 'other'}">Other</option>
+                        </select>
+        <button type="submit">Update</button>
+            <a th:href="@{/driverDashBoard}" class="edit-button"  >Cancel</a>
+    </form>
+</div>
+<script>
+    function validateForm() {
+        var name = document.getElementById('name').value;
+        var address = document.getElementById('address').value;
+        var email = document.getElementById('email').value;
+        var phoneNumber = document.getElementById('phoneNumber').value;
+        var gender = document.getElementById('gender').value;
+        var isValid = true;
+
+        // Check if name is filled
+        if (name.trim() === '') {
+            displayError('name', 'Please enter a name');
+            isValid = false;
+        } else {
+            hideError('name');
+        }
+
+        // Check if address is filled
+        if (address.trim() === '') {
+            displayError('address', 'Please enter an address');
+            isValid = false;
+        } else {
+            hideError('address');
+        }
+
+        // Check if email is filled and valid
+        if (email.trim() === '') {
+            displayError('email', 'Please enter an email');
+            isValid = false;
+        } else if (!validateEmail(email)) {
+            displayError('email', 'Please enter a valid email');
+            isValid = false;
+        } else {
+            hideError('email');
+        }
+
+        // Check if phone number is filled and within the length range
+        if (phoneNumber.trim() === '') {
+            displayError('phoneNumber', 'Please enter a phone number');
+            isValid = false;
+        } else if (phoneNumber.length < 10 || phoneNumber.length > 12) {
+            displayError('phoneNumber', 'Phone number should be between 10 and 12 digits');
+            isValid = false;
+        } else {
+            hideError('phoneNumber');
+        }
+
+        // Check if gender is selected
+        if (gender === '') {
+            displayError('gender', 'Please select a gender');
+            isValid = false;
+        } else {
+            hideError('gender');
+        }
+
+        return isValid;
+    }
+
+    function validateEmail(email) {
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    function displayError(fieldId, errorMessage) {
+        var errorElement = document.getElementById(fieldId + '-error');
+        if (errorElement) {
+            errorElement.textContent = errorMessage;
+            errorElement.style.display = 'block';
+        }
+    }
+
+    function hideError(fieldId) {
+        var errorElement = document.getElementById(fieldId + '-error');
+        if (errorElement) {
+            errorElement.style.display = 'none';
+        }
+    }
+    document.addEventListener("DOMContentLoaded", function() {
+        var logoElement = document.getElementById("logo");
+
+        logoElement.addEventListener("click", function(event) {
+            event.preventDefault(); // Prevent the default behavior of the click event
+
+            // Display a confirmation message
+            var confirmationMessage = "Please click the cancel button to continue.";
+            alert(confirmationMessage);
+        });
+    });
+
+</script>
+</body>
+</html>

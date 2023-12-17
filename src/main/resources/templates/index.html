@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Stunning Home Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <style>
+        body {
+                    font-family: 'Arial', sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    background-color: #f2f2f2;
+                }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        nav {
+            background-color: #f1f1f1;
+            padding: 10px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 10px;
+        }
+        nav ul li a {
+            color: #333;
+            text-decoration: none;
+            padding: 5px 10px;
+        }
+
+        nav ul li a:hover {
+            background-color: #333;
+            color: #fff;
+        }
+        p {
+                    font-size: 20px;
+                    color: #f3eded;
+                    /*background-image: linear-gradient(to right, #e3e0e2, #3333ff);*/
+                    background-clip: text;
+                    /*-webkit-background-clip: text;*/
+                    /*-webkit-text-fill-color: transparent;*/
+                    text-align: center;
+
+                }
+        .rest {
+            /* Add the path to your background image */
+            background-image: url('/img/photos/wall1.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white; /* Set text color to white or any other contrasting color */
+            padding: 190px; /* Add padding as needed */
+            text-align: center;
+            /*width: 95%;*/
+            height: 300%;
+            /*margin-top: 10px;*/
+        }
+        footer {
+            /*background-color: #333;*/
+            padding: 20px;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        footer h4 {
+            font-size: 20px;
+            color: #fff;
+            margin: 0;
+        }
+
+        footer p {
+            margin: 10px 0;
+            font-size: 12px;
+        }
+
+        .footer-contact {
+            background-color: #555;
+            padding: 20px;
+            width: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 200px;
+        }
+
+        .footer-contact h4 {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .footer-gallery {
+            background-color: #777;
+            padding: 20px;
+            width: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-gallery h4 {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .image-grid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /*flex-wrap: wrap;*/
+            margin-top: 10px;
+        }
+
+        .image-grid img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin: 5px;
+        }
+        .zip{
+            color: white;
+            background-color: #333;
+        }
+        /*.welcome{*/
+        /*    color: white;*/
+        /*    font-size: 50px;*/
+        /*    marquee: center;*/
+        /*}*/
+        .welcome {
+            color: #282727;
+            font-size: 50px;
+            marquee: center;
+            margin-top: -195px;
+        }
+
+        /*about us*/
+        #about-us {
+            background-color: #f2f2f2;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px;
+        }
+
+        /* Styles for the heading */
+        #about-us h2 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        /* Styles for the paragraphs */
+        #about-us p {
+            color: #555;
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+    </style>
+
+    
+</head>
+<body>
+<div class="main">
+    <div class="top">
+        <header>
+            <h1>Car Rental Management System</h1>
+        </header>
+            <nav>
+                <ul>
+                     <li><a th:href="@{showHome}">Home</a></li>
+                    <li><a th:href="@{carView}">Car</a></li>
+                    <li><a th:href="@{showNewClientForm}">Register</a></li>
+                    <li><a th:href="@{login}">Login</a></li>
+                    <li><a th:href="@{loginAdmin}">Admin</a></li>
+                    <li><a href="#about-us">About US</a></li>
+                </ul>
+            </nav>
+
+
+    </div>
+    <div class="rest" >
+        <section>
+            <p class="welcome" >Welcome to Rental Car Platform</p>
+<!--            <p>This is a car that is ready to speed down the Autobahn or go on the trails, with three locking differentials, allowing it to scale steep dirt grades with ridiculous ease. The drivability is clearly amazing as expected with much ground clearance and air tight cabin. </p>-->
+
+        </section>
+    </div>
+</div>
+<section id="about-us">
+    <h2>About Us</h2>
+    <p>Welcome to our Rental Car Platform. We are dedicated to providing you with the best car rental experience.</p>
+    <p>At Rental Car Platform, we offer a wide selection of vehicles to suit your needs, whether you're traveling for business or leisure. Our fleet includes sedans, SUVs, luxury cars, and more.</p>
+    <p>With our easy-to-use online booking system, you can quickly search for available cars, compare prices, and make reservations. We strive to make the car rental process seamless and convenient for our customers.</p>
+    <p>Our team of dedicated professionals is committed to delivering exceptional customer service. We are here to assist you at every step, from choosing the right vehicle to providing support during your rental period.</p>
+    <p>Thank you for choosing Rental Car Platform. We look forward to serving you and making your car rental experience smooth and enjoyable.</p>
+</section>
+<footer>
+    <div class="footer-contact">
+        <h4>Get In Touch</h4>
+        <p><i class="fas fa-map-marker"></i> KG 35 Street, Kigali, Rwanda</p>
+        <p><i class="fas fa-phone"></i> +2507360929</p>
+        <p><i class="fas fa-envelope"></i> sergohakiza@gmail.com</p>
+    </div>
+    <div class="footer-gallery">
+        <h4>Car Gallery</h4>
+        <div class="image-grid">
+            <div>
+                <a href=""><img src="img/gallery-1.jpg" alt=""></a>
+            </div>
+            <div>
+                <a href=""><img src="img/gallery-2.jpg" alt=""></a>
+            </div>
+            <div>
+                <a href=""><img src="img/gallery-3.jpg" alt=""></a>
+            </div>
+            <div>
+                <a href=""><img src="img/gallery-4.jpg" alt=""></a>
+            </div>
+            <div>
+                <a href=""><img src="img/gallery-5.jpg" alt=""></a>
+            </div>
+            <div>
+                <a href=""><img src="img/gallery-6.jpg" alt=""></a>
+            </div>
+            <!-- Add more image grid items as needed -->
+        </div>
+    </div>
+
+</footer>
+<div class="zip">
+    <p> &copy; 2023 Rental car. All rights reserved.</p>
+</div>
+
+</body>
+</html>

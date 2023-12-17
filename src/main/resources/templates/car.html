@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Car</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            /*background-color: #f2f2f2;*/
+            background-image: url('/img/h.jpg');
+            margin: 0;
+            padding: 0;
+            /*display: flex;*/
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px ;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+
+
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: -10px;
+            margin-bottom: 10px;
+            display: none; /* Hide error messages by default */
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+        .form-container {
+            margin-top: 5px;
+            max-width: 400px;
+            margin-left:400px;
+            padding: 20px;
+            background-color: #f2f2f2;
+            border-radius: 5px;
+        }
+    </style>
+    <script>
+        function validateForm() {
+            var form = document.getElementById('carForm');
+
+            var plateNumber = form.elements['plateNumber'].value.trim();
+            var name = form.elements['name'].value.trim();
+            var manufacture = form.elements['manufacture'].value.trim();
+            var year = form.elements['year'].value.trim();
+            var price = form.elements['price'].value.trim();
+            var seat = form.elements['seat'].value.trim();
+
+            var plateNumberPattern = /^RA[A-Z]\d{3}[A-Z]$/;
+
+            var plateNumberError = document.getElementById('plateNumberError');
+            var nameError = document.getElementById('nameError');
+            var manufactureError = document.getElementById('manufactureError');
+            var yearError = document.getElementById('yearError');
+            var priceError = document.getElementById('priceError');
+            var seatError = document.getElementById('seatError');
+
+            // Reset error messages
+            plateNumberError.style.display = 'none';
+            nameError.style.display = 'none';
+            manufactureError.style.display = 'none';
+            yearError.style.display = 'none';
+            priceError.style.display = 'none';
+            seatError.style.display = 'none';
+
+            var isValid = true;
+
+            if (!plateNumberPattern.test(plateNumber)) {
+                plateNumberError.innerHTML = 'Invalid Plate Number format.eg:RAB456G';
+                plateNumberError.style.display = 'block';
+                isValid = false;
+            }
+
+            if (name === '') {
+                nameError.innerHTML = 'Name is required.';
+                nameError.style.display = 'block';
+                isValid = false;
+            }
+
+            if (manufacture === '') {
+                manufactureError.innerHTML = 'Manufacture is required.';
+                manufactureError.style.display = 'block';
+                isValid = false;
+            }
+
+            if (year === '' || isNaN(year)) {
+                yearError.innerHTML = 'Year is required and must be a number.';
+                yearError.style.display = 'block';
+                isValid = false;
+            }
+
+            if (price === '' || isNaN(price)) {
+                priceError.innerHTML = 'Price is required and must be a number.';
+                priceError.style.display = 'block';
+                isValid = false;
+            }
+
+            if (seat === '' || isNaN(seat)) {
+                seatError.innerHTML = 'Seat is required and must be a number.';
+                seatError.style.display = 'block';
+                isValid = false;
+            }
+
+            return isValid;
+        }
+    </script>
+</head>
+<nav th:include="adminTop.html"> logo</nav>
+<body>
+<div class="form-container">
+    <h2>Register Car Form</h2>
+<form id="carForm" action="/saveCar" method="post" th:object="${car}" onsubmit="return validateForm()" enctype="multipart/form-data">
+
+    <label for="plateNumber">Plate Number:</label>
+    <input type="text" id="plateNumber" name="plateNumber">
+    <span id="plateNumberError" class="error-message"></span>
+
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name">
+    <span id="nameError" class="error-message"></span>
+
+    <label for="manufacture">Manufacture:</label>
+    <input type="text" id="manufacture" name="manufacture">
+    <span id="manufactureError" class="error-message"></span>
+
+    <label for="year">Year:</label>
+    <input type="number" id="year" name="year">
+    <span id="yearError" class="error-message"></span>
+
+    <label for="price">Price:</label>
+    <input type="number" id="price" name="price">
+    <span id="priceError" class="error-message"></span>
+
+    <label for="seat">Seat:</label>
+    <input type="number" id="seat" name="seat">
+    <span id="seatError" class="error-message"></span>
+    <label for="driver">Driver:</label>
+    <select id="driver" th:field="*{driver}">
+        <option th:each="dr :${listDriver} " th:value="${dr.driver_Id}" th:text="${dr.name}"></option>
+    </select>
+    <label for="imageFile">Car Image:</label>
+    <input type="file" id="imageFile" name="imageFile"  th:accept="${'image/*'}">
+
+
+
+    <button type="submit" style="text-align: center;">Register Car</button>
+</form>
+</div>
+</body>
+</html>
+
+

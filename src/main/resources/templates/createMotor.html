@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Create Motor</title>
+    <style>
+        /* CSS styles omitted for brevity */
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: #d50000;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+    </style>
+    </style>
+</head>
+<body>
+<h1>Create Motor</h1>
+<div class="container">
+    <form id="createMotorForm" action="/motors" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <input type="text" id="name" name="name" required="required">
+            <span class="error-message" id="nameError"></span>
+        </div>
+        <div class="form-group">
+            <label for="image">Image:</label>
+            <input type="file" id="image" name="image" required="required">
+            <span class="error-message" id="imageError"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Create">
+        </div>
+    </form>
+</div>
+
+<script>
+    // JavaScript validation logic
+    const form = document.getElementById('createMotorForm');
+    const nameInput = document.getElementById('name');
+    const imageInput = document.getElementById('image');
+    const nameError = document.getElementById('nameError');
+    const imageError = document.getElementById('imageError');
+
+    form.addEventListener('submit', function(event) {
+        let isValid = true;
+
+        // Clear previous error messages
+        nameError.textContent = '';
+        imageError.textContent = '';
+
+        // Validate name field
+        if (nameInput.value.trim() === '') {
+            nameError.textContent = 'Name is required';
+            isValid = false;
+        }
+
+        // Validate image field
+        if (imageInput.files.length === 0) {
+            imageError.textContent = 'Image is required';
+            isValid = false;
+        }
+
+        if (!isValid) {
+            event.preventDefault(); // Prevent form submission if there are validation errors
+        }
+    });
+</script>
+</body>
+</html>

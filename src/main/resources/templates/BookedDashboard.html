@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Booking Dashboard</title>
+    <style>
+        body.booking-dashboard-page {
+            font-family: 'Arial', sans-serif;
+            background-image: url('/img/h.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            /*display: flex;*/
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .booking-dashboard {
+
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 40px 40px;
+            width: 900px;
+
+            margin-top: 50px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        h2.booking-dashboard-title {
+            color: #333;
+            text-align: center;
+            margin-top: 0;
+        }
+
+        table.booking-dashboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th.booking-dashboard-header, td.booking-dashboard-cell {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th.booking-dashboard-header {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: bold;
+        }
+
+        tbody.booking-dashboard-row:hover {
+            background-color: #f9f9f9;
+        }
+
+        .booking-status-approve {
+            color: green;
+            font-weight: bold;
+        }
+
+        .booking-status-deny {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="booking-dashboard-page">
+<nav th:include="adminTop.html"> logo</nav>
+<div class="booking-dashboard">
+    <h2 class="booking-dashboard-title">Booking Dashboard</h2>
+    <table class="booking-dashboard-table">
+        <thead>
+        <tr>
+            <th class="booking-dashboard-header">Booking ID</th>
+            <th class="booking-dashboard-header">Car PlateNumber</th>
+            <th class="booking-dashboard-header">Car</th>
+            <th class="booking-dashboard-header">Client</th>
+            <th class="booking-dashboard-header">Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="booking : ${approvedBookings}" class="booking-dashboard-row">
+            <td class="booking-dashboard-cell" th:text="${booking.booked_Id}"></td>
+            <td class="booking-dashboard-cell" th:text="${booking.car.plateNumber}"></td>
+            <td class="booking-dashboard-cell" th:text="${booking.car.name}"></td>
+            <td class="booking-dashboard-cell" th:text="${booking.client.name}"></td>
+            <td class="booking-dashboard-cell">
+                <span th:class="${booking.status == 'approve'} ? 'booking-status-approve' : 'booking-status-deny'" th:text="${booking.status}"></span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

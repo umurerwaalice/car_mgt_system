@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver Dashboard</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            /*background-color: #f4f4f4;*/
+            background-image: url('/img/h.jpg');
+            margin: 0;
+            padding: 0;
+            /*display: flex;*/
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .dashboard {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 40px 40px;
+            width: 900px;
+            justify-content: center;
+            margin-top: 40px;
+            margin-left: 70px;
+            /*position: absolute;*/
+            /*top: 50%;*/
+            /*left: 50%;*/
+            /*transform: translate(-50%, -50%);*/
+
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .actions {
+            text-align: center;
+        }
+        .edit-btn, .delete-btn {
+            display: inline-block;
+            width: 100px;
+            background-color: #337ab7;
+            color: #fff;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 5px;
+            text-decoration: none;
+            margin-bottom: 3px;
+        }
+
+        .delete-btn {
+            background-color: #d9534f;
+        }
+
+        .edit-btn:hover, .delete-btn:hover {
+            background-color: #4d4f59;
+        }
+    </style>
+    <script>
+        function showConfirmation() {
+            var confirmation = confirm("Are you sure you want to reject this booking request?");
+            if (confirmation) {
+                alert("The booking request has been rejected and a message has been sent to the client.");
+            }
+        }
+    </script>
+
+</head>
+<div><nav th:include="adminTop.html"> logo</nav></div>
+<body>
+
+<div class="dashboard" >
+    <h2>Reservation Dashboard</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Plate Number</th>
+            <th>Car Name</th>
+            <th>Status</th>
+            <th class="actions">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="book : ${allBooking}">
+            <td th:text="${book.client.name}"></td>
+            <td th:text="${book.client.address}"></td>
+            <td th:text="${book.client.email}"></td>
+            <td th:text="${book.client.phoneNumber}"></td>
+            <td th:text="${book.car.plateNumber}"></td>
+            <td th:text="${book.car.name}"></td>
+            <td th:text="${book.status}"></td>
+
+
+            <td class="actions">
+
+                <a th:href="@{/updateBooking/{id}(id=${book.booked_Id})}" class="edit-btn" >Approve</a><br>
+                <a th:href="@{/denyBooking/{id}(id=${book.booked_Id})}" class="delete-btn" onclick="showConfirmation()">Reject </a>
+
+                  </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

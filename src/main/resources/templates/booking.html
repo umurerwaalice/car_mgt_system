@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bookingForm</title>
+    <style>
+        /* Form container */
+        .form-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f2f2f2;
+            border-radius: 5px;
+        }
+
+        /* Section container */
+        .section-container {
+            margin-bottom: 20px;
+        }
+
+        /* Form labels */
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        /* Input fields */
+        input[type="text"],
+        input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            color: #555;
+        }
+
+        /* Save button */
+        button[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* Save button hover effect */
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        /* Section headings */
+        h3 {
+            font-size: 24px;
+            color: #ff7f50;
+            margin-bottom: 10px;
+        }
+        body{
+            background-image: url('/img/h.jpg');
+        }
+        .logout-container {
+            display: flex;
+            justify-content: flex-end;
+        }
+    </style>
+</head>
+<nav th:include="clientTopBar.html">logo</nav>
+<body>
+<div class="logout-container" >
+    <a class="admin-logout" style="background-color: #45a049;margin-right: 5px; width: 99px; text-align: center;color: white;font-size: 15px;"><p th:text="'user: '+${clientName}"></p></a>
+
+</div>
+<div class="form-container">
+
+    <form action="/saveBooking" method="post" >
+        <h2 style="text-align: center; font-size: 32px; color: #0a0a0a;">Book a Car</h2>
+
+        <div class="section-container">
+            <h3 style="background-color: #0a0a0a; color: #fff; padding: 5px; border-radius: 5px;">Personal Information</h3>
+
+            <input type="hidden" id="clientId" name="client" th:value="${client.client_Id}" />
+            <input type="hidden" id="carId" name="car" th:value="${car.id}" />
+            <input type="hidden" id="status" name="status" th:value="pending" />
+            <label for="clientName">Name:</label>
+            <input type="text" id="clientName"  required readonly th:value="${client.name}">
+            <label for="clientAddress">Address:</label>
+            <input type="text" id="clientAddress" name="" required readonly th:value="${client.address }">
+            <label for="clientEmail">Email:</label>
+            <input type="text" id="clientEmail" name="" required readonly th:value="${client.email }">
+            <label for="clientPhone">Phone:</label>
+            <input type="text" id="clientPhone" name="" required readonly th:value="${client.phoneNumber }">
+
+        </div>
+
+        <div class="section-container">
+            <h3 style="background-color: #0c0c0c; color: #fff; padding: 5px; border-radius: 5px;">Car Information</h3>
+
+            <label for="carPlateNumber">Plate Number:</label>
+            <input type="text" id="carPlateNumber" name="" required readonly th:value="${car.plateNumber}">
+
+            <label for="carName">Name:</label>
+            <input type="text" id="carName" name="" required readonly th:value="${car.name }">
+            <label for="price">Price/Day:</label>
+            <input type="text" id="price" name="" required readonly th:value="${car.price+' '+'FRW' }">
+
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate" name="startedDate" required>
+
+            <label for="endDate">Return Date:</label>
+            <input type="date" id="endDate" name="returnDate" required>
+
+        </div>
+
+        <button type="submit">Save Booking</button>
+    </form>
+</div>
+
+
+<script>
+    // Get the current date
+    var today = new Date().toISOString().split("T")[0];
+
+    // Set the minimum date for start date input field
+    document.getElementById("startDate").setAttribute("min", today);
+
+    // Add event listener to the start date input field
+    document.getElementById("startDate").addEventListener("change", function() {
+        var startDate = document.getElementById("startDate").value;
+
+        // Set the minimum date for end date input field based on the start date
+        document.getElementById("endDate").setAttribute("min", startDate);
+        document.getElementById("endDate").value = startDate; // Set the end date to the selected start date
+    });
+
+    // Add event listener to the form submission
+    document.querySelector("form").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent the form from submitting
+
+        // Show the popup message
+        alert("Thank you for booking request. We will be sending you an email shortly.");
+
+        // Optionally, you can submit the form programmatically after showing the popup
+         event.target.submit();
+    });
+</script>
+</body>
+</html>

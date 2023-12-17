@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>update my data</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            /*background-color: #2d2b2b;*/
+            background-image: url('/img/h.jpg');
+            margin: 0;
+            padding: 0;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: #d9534f;
+            display: none;
+        }
+        a{
+            margin-top: 10px;
+        }
+        .logout-container {
+            display: flex;
+            justify-content: flex-end;
+        }
+        .admin-logout {
+            background-color: #4caf50;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            margin-right: 5px;
+
+        }
+    </style>
+    <script>
+        function validateForm() {
+            // Check for empty fields
+            var fields = ['username', 'name', 'address', 'phoneNumber', 'password', 'confirmPassword', 'email'];
+            var isValid = true;
+
+            for (var i = 0; i < fields.length; i++) {
+                var fieldId = fields[i];
+                var fieldValue = document.getElementById(fieldId).value.trim();
+                var errorMessage = document.getElementById(fieldId + 'Error');
+
+                if (fieldValue === '') {
+                    displayErrorMessage(fieldId, 'This field is required');
+                    isValid = false;
+                } else {
+                    errorMessage.style.display = 'none';
+                }
+            }
+
+            var password = document.getElementById('password').value;
+            var confirmPassword = document.getElementById('confirmPassword').value;
+            var email = document.getElementById('email').value;
+
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                displayErrorMessage('email', 'Invalid email address');
+                isValid = false;
+            }
+
+            if (password !== confirmPassword) {
+                displayErrorMessage('password', 'Passwords do not match');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        function displayErrorMessage(fieldId, message) {
+            var errorMessage = document.getElementById(fieldId + 'Error');
+            errorMessage.innerHTML = message;
+            errorMessage.style.display = 'inline';
+        }
+    </script>
+    </script>
+</head>
+<nav th:include="clientTopBar.html">logo</nav>
+<body>
+<div class="logout-container">
+    <a class="admin-logout" ><p th:text="'user: '+${clientName}"></p></a>
+</div>
+
+<div style="padding-left: 30%;">
+    <form th:action="@{/saveClientInfo}" th:object="${clientInf1}" method="post" onsubmit="return validateForm()">
+        <h2>Update My Profile</h2>
+        <input type="hidden" th:field="*{client_Id}" />
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" th:field="*{username}">
+            <span id="usernameError" class="error-message"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" th:field="*{name}">
+            <span id="nameError" class="error-message"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="address">Address:</label>
+            <input type="text" id="address" th:field="*{address}">
+            <span id="addressError" class="error-message"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="phoneNumber">Phone Number:</label>
+            <input type="tel" id="phoneNumber" th:field="*{phoneNumber}">
+            <span id="phoneNumberError" class="error-message"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" th:field="*{password}">
+            <span id="passwordError" class="error-message"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="confirmPassword">Confirm Password:</label>
+            <input type="password" id="confirmPassword">
+            <span id="confirmPasswordError" class="error-message"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" th:field="*{email}">
+            <span id="emailError" class="error-message"></span>
+        </div>
+
+        <button type="submit">Update</button>
+    </form>
+</div>
+</body>
+</html>
+
+

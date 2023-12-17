@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Dashboard</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            /*background-color: #f2f2f2;*/
+            background-image: url('/img/photos/bugatti.jpg' );
+            background-size: 95% auto;
+            margin: 0;
+            padding: 0;
+            /*display: flex;*/
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h2 {
+            color: #f1eded;
+            text-align: center;
+            font-size: 30px;
+        }
+
+        .dashboard {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .car-card {
+            background-color: #fff;
+            margin: 16px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        .car-card h3 {
+            color: #333;
+        }
+
+        .car-details {
+            color: #555;
+            margin-top: 8px;
+        }
+
+        .car-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 16px;
+        }
+
+        .edit-button, .delete-button {
+            background-color: #4caf50;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .edit-button:hover, .delete-button:hover {
+            background-color: #45a049;
+        }
+        a{
+            margin-top: 10px;
+        }
+        .logout-container {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .admin-logout {
+            background-color: #4caf50;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            margin-right: 5px;
+
+        }
+        .search-form {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            padding: 10px;
+            border: 2px solid #f80303;
+            border-radius: 4px;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+
+        .search-button {
+            background-color: #f80303;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .search-button:hover {
+            background-color: #f03a3a;
+        }
+        .download-button{
+            background-color: #0248f8;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<nav th:include="clientTopBar.html">logo</nav>
+<body>
+<div class="logout-container">
+    <a class="admin-logout" ><p th:text="'user: '+${clientName}"></p></a>
+
+</div>
+<h2>Choose Your Car</h2>
+<form class="search-form" th:action="@{/carViewBooking}" method="get">
+    <input id="txtSearch" class="search-input" type="text" name="keyword" placeholder="Search by Name or Manufacture" style="width:250px;">
+    <button class="search-button" type="submit">Go</button>
+</form>
+<input type="hidden" name="clientId" th:value="${clientId}" />
+<div class="dashboard">
+    <!-- Iterate over the list of cars and display each as a card -->
+    <div class="car-card" th:each="car : ${allcars}">
+        <h3 th:text="${car.name}"></h3>
+        <div class="car-details">
+            <p th:text="'Manufacture: ' + ${car.manufacture}"></p>
+            <p th:text="'Year: ' + ${car.year}"></p>
+            <p th:text="'Price: ' + ${car.price}+' '+'FRW'"></p>
+            <p th:text="'Seat: ' + ${car.seat}"></p>
+
+            <td>
+                <img th:src="@{'/images/' + ${car.id}}" style="width: 250px; height: 200px">
+            </td>
+            <!-- Add more details as needed -->
+
+            <input type="hidden" id="clientId" name="clientId" th:value="${param.clientId}" />
+        </div>
+        <a th:href="@{'/images/' + ${car.id}}" download="car_image.jpg" class="download-button">Download</a>
+
+        <a style="text-decoration: none;" th:href="@{/showNewBookingForm(clientId=${clientId},carId=${car.id})}" class="delete-button">Book Car</a>
+
+    </div>
+</div>
+</body>
+</html>

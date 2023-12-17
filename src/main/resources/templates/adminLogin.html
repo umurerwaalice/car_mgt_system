@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            background-image: url('/img/h.jpg');
+            font-family: Arial, sans-serif;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .login-container {
+
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 40px 40px;
+            width: 400px;
+            text-align: center;
+            margin-top: 50px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .login-title {
+            font-size: 24px;
+            color: #333333;
+            margin-bottom: 20px;
+        }
+
+        .input-container {
+            margin-bottom: 20px;
+        }
+
+        .input-container input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+        }
+
+        .input-container input[type="text"],
+        .input-container input[type="password"] {
+            background-color: #f9f9f9;
+        }
+
+        .input-container input[type="text"]:focus,
+        .input-container input[type="password"]:focus {
+            outline: none;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-button,
+        .back-button {
+            background-color: #4caf50;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-right: 10px;
+        }
+
+        .login-button:hover,
+        .back-button:hover {
+            background-color: #45a049;
+        }
+
+        .login-button:focus,
+        .back-button:focus {
+            outline: none;
+        }
+        p.error {
+                  color: red;
+                  margin-top: 10px;
+               }
+    </style>
+</head>
+<nav th:include="topBar.html"> logo</nav>
+<body>
+<div class="login-container">
+    <h2 class="login-title">Login AS Admin</h2>
+    <form th:action="@{/loginAdmin}" method="post">
+        <p th:if="${error}" class="error" th:text="${error}"></p>
+        <div class="input-container">
+            <input type="text" name="username" placeholder="Username" required>
+        </div>
+        <div class="input-container">
+            <input type="password" name="password" placeholder="Password" required>
+        </div>
+        <button class="login-button" type="submit">Login</button>
+        <a th:href="@{showHome}" class="back-button" type="button" >Back</a>
+    </form>
+</div>
+</body>
+</html>

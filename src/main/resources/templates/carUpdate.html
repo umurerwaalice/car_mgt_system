@@ -1,0 +1,305 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Car</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            /*background-color: #f2f2f2;*/
+            background-image: url('/img/h.jpg');
+            margin: 0;
+            padding: 0;
+            /*display: flex;*/
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            margin-left: 30%;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: -10px;
+            margin-bottom: 10px;
+            display: none; /* Hide error messages by default */
+        }
+        .edit-button {
+            background-color: #4caf50;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+    </style>
+<!--    <script>-->
+<!--        -->
+<!--        function validateForm() {-->
+<!--            var form = document.getElementById('carForm');-->
+
+<!--            var plateNumber = form.elements['plateNumber'].value.trim();-->
+<!--            var name = form.elements['name'].value.trim();-->
+<!--            var manufacture = form.elements['manufacture'].value.trim();-->
+<!--            var year = form.elements['year'].value.trim();-->
+<!--            var price = form.elements['price'].value.trim();-->
+<!--            var seat = form.elements['seat'].value.trim();-->
+<!--            var imageFile = form.elements['imageFile'].value;-->
+
+<!--            var plateNumberPattern = /^RA[A-Z]\d{3}[A-Z]$/;-->
+
+<!--            var plateNumberError = document.getElementById('plateNumberError');-->
+<!--            var nameError = document.getElementById('nameError');-->
+<!--            var manufactureError = document.getElementById('manufactureError');-->
+<!--            var yearError = document.getElementById('yearError');-->
+<!--            var priceError = document.getElementById('priceError');-->
+<!--            var seatError = document.getElementById('seatError');-->
+<!--            var imageError = document.getElementById('imageError');-->
+
+<!--            // Reset error messages-->
+<!--            plateNumberError.style.display = 'none';-->
+<!--            nameError.style.display = 'none';-->
+<!--            manufactureError.style.display = 'none';-->
+<!--            yearError.style.display = 'none';-->
+<!--            priceError.style.display = 'none';-->
+<!--            seatError.style.display = 'none';-->
+<!--            imageError.style.display = 'none';-->
+
+<!--            var isValid = true;-->
+
+<!--            if (!plateNumberPattern.test(plateNumber)) {-->
+<!--                plateNumberError.innerHTML = 'Invalid Plate Number format. eg: RAB456G';-->
+<!--                plateNumberError.style.display = 'block';-->
+<!--                isValid = false;-->
+<!--            }-->
+
+<!--            if (name === '') {-->
+<!--                nameError.innerHTML = 'Name is required.';-->
+<!--                nameError.style.display = 'block';-->
+<!--                isValid = false;-->
+<!--            }-->
+
+<!--            if (manufacture === '') {-->
+<!--                manufactureError.innerHTML = 'Manufacture is required.';-->
+<!--                manufactureError.style.display = 'block';-->
+<!--                isValid = false;-->
+<!--            }-->
+
+<!--            if (year === '' || isNaN(year)) {-->
+<!--                yearError.innerHTML = 'Year is required and must be a number.';-->
+<!--                yearError.style.display = 'block';-->
+<!--                isValid = false;-->
+<!--            }-->
+
+<!--            if (price === '' || isNaN(price)) {-->
+<!--                priceError.innerHTML = 'Price is required and must be a number.';-->
+<!--                priceError.style.display = 'block';-->
+<!--                isValid = false;-->
+<!--            }-->
+
+<!--            if (seat === '' || isNaN(seat)) {-->
+<!--                seatError.innerHTML = 'Seat is required and must be a number.';-->
+<!--                seatError.style.display = 'block';-->
+<!--                isValid = false;-->
+<!--            }-->
+
+<!--            if (imageFile === '') {-->
+<!--                imageError.innerHTML = 'Image is required.';-->
+<!--                imageError.style.display = 'block';-->
+<!--                isValid = false;-->
+<!--            }-->
+
+<!--            return isValid;-->
+<!--        }-->
+<!--    </script>-->
+    <script>
+        function enableFormFields(enable) {
+            var form = document.getElementById('carForm');
+            var formFields = form.elements;
+
+            for (var i = 0; i < formFields.length; i++) {
+                if (formFields[i].type !== 'hidden') {
+                    formFields[i].disabled = !enable;
+                }
+            }
+        }
+
+        function validateForm() {
+            var form = document.getElementById('carForm');
+
+            if (!form.elements['updateCar'].clicked && !form.elements['cancel'].clicked) {
+                alert('Please click on either the "Update Car" button or the "Cancel" link to proceed.');
+                return false;
+            }
+
+            var plateNumber = form.elements['plateNumber'].value.trim();
+            var name = form.elements['name'].value.trim();
+            var manufacture = form.elements['manufacture'].value.trim();
+            var year = form.elements['year'].value.trim();
+            var price = form.elements['price'].value.trim();
+            var seat = form.elements['seat'].value.trim();
+            var imageFile = form.elements['imageFile'].value;
+
+            var plateNumberPattern = /^RA[A-Z]\d{3}[A-Z]$/;
+
+            var plateNumberError = document.getElementById('plateNumberError');
+            var nameError = document.getElementById('nameError');
+            var manufactureError = document.getElementById('manufactureError');
+            var yearError = document.getElementById('yearError');
+            var priceError = document.getElementById('priceError');
+            var seatError = document.getElementById('seatError');
+            var imageError = document.getElementById('imageError');
+
+            // Reset error messages
+            plateNumberError.style.display = 'none';
+            nameError.style.display = 'none';
+            manufactureError.style.display = 'none';
+            yearError.style.display = 'none';
+            priceError.style.display = 'none';
+            seatError.style.display = 'none';
+            imageError.style.display = 'none';
+
+            var isValid = true;
+
+            if (!plateNumberPattern.test(plateNumber)) {
+                plateNumberError.innerHTML = 'Invalid Plate Number format. eg: RAB456G';
+                plateNumberError.style.display = 'block';
+                isValid = false;
+            }
+
+            if (name === '') {
+                nameError.innerHTML = 'Name is required.';
+                nameError.style.display = 'block';
+                isValid = false;
+            }
+
+            if (manufacture === '') {
+                manufactureError.innerHTML = 'Manufacture is required.';
+                manufactureError.style.display = 'block';
+                isValid = false;
+            }
+
+            if (year === '' || isNaN(year)) {
+                yearError.innerHTML = 'Year is required and must be a number.';
+                yearError.style.display = 'block';
+                isValid = false;
+            }
+
+            if (price === '' || isNaN(price)) {
+                priceError.innerHTML = 'Price is required and must be a number.';
+                priceError.style.display = 'block';
+                isValid = false;
+            }
+
+            if (seat === '' || isNaN(seat)) {
+                seatError.innerHTML = 'Seat is required and must be a number.';
+                seatError.style.display = 'block';
+                isValid = false;
+            }
+
+            if (imageFile === '') {
+                imageError.innerHTML = 'Image is required.';
+                imageError.style.display = 'block';
+                isValid = false;
+            }
+
+            return isValid;
+        }
+        document.addEventListener("DOMContentLoaded", function() {
+            var logoElement = document.getElementById("logo");
+
+            logoElement.addEventListener("click", function(event) {
+                event.preventDefault(); // Prevent the default behavior of the click event
+
+                // Display a confirmation message
+                var confirmationMessage = "Please click the cancel button to continue.";
+                alert(confirmationMessage);
+            });
+        });
+    </script>
+</head>
+<body>
+<nav th:include="adminTop.html" onclick="return false;" id="logo"> logo</nav>
+
+<form id="carForm" action="/saveCar" onsubmit="return validateForm()" method="post" th:object="${car}" enctype="multipart/form-data">
+    <input type="hidden" th:field="*{id}">
+    <h2>Edit Car</h2>
+    <label for="plateNumber">Plate Number:</label>
+    <input type="text" id="plateNumber" name="plateNumber" th:field="*{plateNumber}" required>
+    <div id="plateNumberError" class="error-message"></div>
+
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" th:field="*{name}" required>
+    <div id="nameError" class="error-message"></div>
+
+    <label for="manufacture">Manufacture:</label>
+    <input type="text" id="manufacture" name="manufacture" th:field="*{manufacture}" required>
+    <div id="manufactureError" class="error-message"></div>
+
+    <label for="year">Year:</label>
+    <input type="text" id="year" name="year" th:field="*{year}" required>
+    <div id="yearError" class="error-message"></div>
+
+    <label for="price">Price:</label>
+    <input type="text" id="price" name="price" th:field="*{price}" required>
+    <div id="priceError" class="error-message"></div>
+
+    <label for="seat">Seat:</label>
+    <input type="text" id="seat" name="seat" th:field="*{seat}" required>
+    <div id="seatError" class="error-message"></div>
+    <label for="driver">Driver:</label>
+        <select id="driver" th:field="*{driver}">
+            <option th:each="dr :${listDriver} " th:value="${dr.driver_Id}" th:text="${dr.name}"></option>
+        </select>
+
+    <label for="imageFile">Image:</label>
+    <input type="file" id="imageFile" name="imageFile" accept="image/*" required>
+    <div id="imageError" class="error-message"></div>
+
+
+    <button type="submit" name="updateCar" onclick="if (!validateForm()) return false; enableFormFields(false)">Update Car</button>
+    <a th:href="@{/adminViewCar}" class="edit-button" name="cancel" onclick="enableFormFields(false)">Cancel</a>
+
+</form>
+
+</body>
+</html>

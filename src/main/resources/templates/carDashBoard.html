@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Dashboard</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        .dashboard {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .car-card {
+            background-color: #fff;
+            margin: 16px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        .car-card h3 {
+            color: #333;
+        }
+
+        .car-details {
+            color: #555;
+            margin-top: 8px;
+        }
+
+        .car-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 16px;
+        }
+
+        .edit-button, .delete-button {
+            background-color: #4caf50;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .edit-button:hover, .delete-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<h2>Car Dashboard</h2>
+
+<div class="dashboard">
+    <!-- Iterate over the list of cars and display each as a card -->
+    <div class="car-card" th:each="car : ${allcars}">
+        <h3 th:text="${car.name}"></h3>
+
+        <div class="car-details">
+            <p th:text="'Plate Number: ' + ${car.plateNumber}"></p>
+            <p th:text="'Manufacture: ' + ${car.manufacture}"></p>
+            <p th:text="'Year: ' + ${car.year}"></p>
+            <p th:text="'Price: ' + ${car.price}+' '+'FRW'"></p>
+            <p th:text="'Seat: ' + ${car.seat}"></p>
+            <!-- Add more details as needed -->
+        </div>
+        <div class="car-actions">
+<!--            <button class="edit-button" th:onclick="'editCar(\'' + ${car.id} + '\')'">Edit</button>-->
+<!--            <button class="delete-button" th:onclick="'deleteCar(\'' + ${car.id} + '\')'">Delete</button>-->
+            <a th:href="@{/updateCar/{id}(id=${car.id})} " class="edit-button">Edit</a>
+            <a th:href="@{/deleteCar/{id}(id=${car.id})} " class="delete-button">Delete</a>
+        </div>
+    </div>
+</div>
+
+<!--<script>-->
+<!--    // You can add JavaScript functions for editing and deleting cars here-->
+<!--    function editCar(carId) {-->
+<!--        // Implement your logic for editing a car-->
+<!--        console.log('Edit car with ID: ' + carId);-->
+<!--    }-->
+
+<!--    function deleteCar(carId) {-->
+<!--        // Implement your logic for deleting a car-->
+<!--        console.log('Delete car with ID: ' + carId);-->
+<!--    }-->
+<!--</script>-->
+</body>
+</html>
